@@ -10,3 +10,8 @@
       java-io/resource
       slurp
       str/split-lines))
+
+(defn char->int
+  "Transforms numeric character to its integer value."
+  [^Character c]
+  (Character/digit c 10))
