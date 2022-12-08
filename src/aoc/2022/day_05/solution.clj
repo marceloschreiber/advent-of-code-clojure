@@ -1,4 +1,4 @@
-(ns aoc.day-05.solution
+(ns aoc.2022.day-05.solution
   (:require [aoc.utils :refer [read-resources-file-by-line]]
             [clojure.string :as str]))
 
@@ -36,16 +36,16 @@
      :to       (parse-long to)
      :quantity (parse-long quantity)}))
 
-(def input (let [input-by-line                                   (-> "2022/day_05.txt"
-                                                                     read-resources-file-by-line)
-                 [crates-input _blank-line rearrangements-input] (partition-by str/blank? input-by-line)
-                 crates                                          (->> crates-input
-                                                                      butlast
-                                                                      (map extract-crates)
-                                                                      pille-crates)
-                 rearrangements                                  (map extract-rearrangement rearrangements-input)]
-             {:crates         crates
-              :rearrangements rearrangements}))
+(def input (let [input-by-line (read-resources-file-by-line "2022/day_05.txt")
+
+                 [crates-input
+                  _blank-line
+                  rearrangements-input] (partition-by str/blank? input-by-line)]
+             {:crates         (->> crates-input
+                                   butlast
+                                   (map extract-crates)
+                                   pille-crates)
+              :rearrangements (map extract-rearrangement rearrangements-input)}))
 
 (defn crate-mover-9000
   [crates quantity]
