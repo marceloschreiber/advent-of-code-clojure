@@ -7,22 +7,26 @@
                 utils/read-resources-file-by-line
                 (mapv #(mapv utils/char->int %))))
 
+(defn take-up-to
+  [pred coll]
+  (lazy-seq
+   (when-let [s (seq coll)]
+     (if (pred (first s))
+       (cons (first s) nil)
+       (cons (first s) (take-up-to pred (rest s)))))))
+
 (defn visible?
   [node neighbors]
-  (let [tree-paths (vals neighbors)]
-    (cond
-      (some empty? tree-paths) true
-      (some #(> node (apply max %)) tree-paths) true
-      :else false)))
+  (->> (vals neighbors)
+       (some (fn [path]
+               (every? #(< % node) path)))))
 
 (defn scenic-score
   [node neighbords]
   (->> (vals neighbords)
-       (map (fn [trees]
-              (let [smaller-trees (take-while #(> node %) trees)]
-                (if (= (count trees) (count smaller-trees))
-                  (-> smaller-trees count)
-                  (-> smaller-trees count inc)))))
+       (map (fn [path]
+              (-> (take-up-to #(>= % node) path)
+                  count)))
        (apply *)))
 
 (defn get-neighbors
@@ -42,10 +46,9 @@
   [input]
   (->> (map-indexed (fn [line lines]
                       (map-indexed (fn [col node]
-                                     {:node node
-                                      :visible? (visible? node (get-neighbors input col line))}) lines)) input)
+                                     (visible? node (get-neighbors input col line))) lines)) input)
        flatten
-       (filter :visible?)
+       (filter true?)
        count))
 
 (defn part-2
@@ -53,10 +56,8 @@
   (->> input
        (map-indexed (fn [line lines]
                       (map-indexed (fn [col node]
-                                     {:node node
-                                      :scenic-score (scenic-score node (get-neighbors input col line))}) lines)))
+                                     (scenic-score node (get-neighbors input col line))) lines)))
        flatten
-       (map :scenic-score)
        (apply max)))
 
 (println "Part 1:" (part-1 input)) ;; 1825
@@ -65,7 +66,7 @@
 (comment
   ;; Slow solution:
   (criterium/with-progress-reporting (criterium/quick-bench (part-1 input)))
-  ;; => Execution time mean: 216ms
+  ;; => Execution time mean: 111ms
   (criterium/with-progress-reporting (criterium/quick-bench (part-2 input)))
-  ;; => Execution time mean: 161ms
+  ;; => Execution time mean: 120ms
   )
