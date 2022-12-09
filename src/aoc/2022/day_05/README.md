@@ -63,5 +63,5 @@ It wasn't able to generate the whole file. It cropped at the middle. But it did 
      :quantity (parse-long quantity)}))
 ```
 
-1. Only 1 suggestion! I can that was such a perfect code that improvements are not possible /s
+1. Only 1 suggestion! I think that was such a perfect code that improvements are not possible /s
 2. I don't agree with the improvement. That function only goal is to extract the rearrangement from a string into a map. Without knowing anything about how this information is going to be used. To decrement there means the function knows that these numbers are going to be used as indexes for something.
