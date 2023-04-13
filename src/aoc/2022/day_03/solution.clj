@@ -9,8 +9,9 @@
 (defn char-range [start end]
   (map char (range (int start) (inc (int end)))))
 
-(def priority-list (merge (zipmap (char-range \a \z) (range 1 ##Inf))
-                          (zipmap (char-range \A \Z) (range 27 ##Inf))))
+(def priority-list (zipmap (concat (char-range \a \z)
+                                   (char-range \A \Z))
+                           (range 1 ##Inf)))
 
 (defn partition-equally
   [coll n]
@@ -38,6 +39,3 @@
        (map get-common-item)
        (map #(get priority-list %))
        (apply +)))
-
-(println "Part 1:" (part-1 input))
-(println "Part 2:" (part-2 input))

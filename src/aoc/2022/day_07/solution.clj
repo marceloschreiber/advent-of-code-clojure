@@ -86,9 +86,6 @@
                   (:size %)))
          (apply min))))
 
-(println "Part 1:" (part-1 input))
-(println "Part 2:" (part-2 input))
-
 (comment
   (criterium/with-progress-reporting (criterium/quick-bench (part-1 input)))
   ;; => Execution time mean : 2.316463 ms

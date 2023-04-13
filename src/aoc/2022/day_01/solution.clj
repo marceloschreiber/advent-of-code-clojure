@@ -20,6 +20,3 @@
        sort
        (take-last 3)
        (apply +)))
-
-(println "Part 1:" (part-1 elfs-calories))
-(println "Part 2:" (part-2 elfs-calories))

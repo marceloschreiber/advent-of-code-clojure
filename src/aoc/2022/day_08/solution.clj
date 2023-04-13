@@ -60,9 +60,6 @@
        flatten
        (apply max)))
 
-(println "Part 1:" (part-1 input)) ;; 1825
-(println "Part 2:" (part-2 input)) ;; 235200
-
 (comment
   ;; Slow solution:
   (criterium/with-progress-reporting (criterium/quick-bench (part-1 input)))

@@ -1,3 +1,6 @@
-{:paths ["src" "resources"]
- :deps  {org.clojure/clojure {:mvn/version "1.11.1"}
-         criterium/criterium {:mvn/version "0.4.6"}}}
+{:paths   ["src" "resources"]
+ :deps    {org.clojure/clojure {:mvn/version "1.11.1"}
+           criterium/criterium {:mvn/version "0.4.6"}}
+ :aliases {:test {:extra-paths ["test"]
+                  :main-opts   ["-m" "kaocha.runner"]
+                  :extra-deps  {lambdaisland/kaocha {:mvn/version "1.82.1306"}}}}}

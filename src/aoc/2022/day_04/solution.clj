@@ -31,6 +31,3 @@
        (map #(apply set/intersection %))
        (filter seq)
        count))
-
-(println "Part 1:" (part-1 input))
-(println "Part 2:" (part-2 input))

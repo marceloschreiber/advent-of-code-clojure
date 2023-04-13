@@ -27,9 +27,6 @@
   [input]
   (find-first-marker input 14 #(apply distinct? %)))
 
-(println "Part 1:" (part-1 input))
-(println "Part 2:" (part-2 input))
-
 (comment
   ;; Can find other types of markers by changing the pred
   (find-first-marker "abcxxxdef" 3 #(= "xxx" %))

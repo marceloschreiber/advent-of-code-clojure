@@ -37,7 +37,6 @@
      :quantity (parse-long quantity)}))
 
 (def input (let [input-by-line (read-resources-file-by-line "2022/day_05.txt")
-
                  [crates-input
                   _blank-line
                   rearrangements-input] (partition-by str/blank? input-by-line)]
@@ -91,6 +90,3 @@
   [{:keys [crates rearrangements]}]
   (->> (rearrange-crates-with-crate-mover crates rearrangements crate-mover-9001)
        join-top-crates))
-
-(println "Part 1:" (part-1 input))
-(println "Part 2:" (part-2 input))
