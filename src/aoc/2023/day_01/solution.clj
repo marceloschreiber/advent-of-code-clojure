@@ -46,7 +46,7 @@
        ((juxt first last))
        (map (fn [[_ digit]]
               (cond
-                (Character/isDigit (first digit)) (Integer/valueOf digit)
+                (Character/isDigit (first digit)) (parse-long digit)
                 (string? digit) (spelled->number digit))))
        (str/join "")
        parse-long))
