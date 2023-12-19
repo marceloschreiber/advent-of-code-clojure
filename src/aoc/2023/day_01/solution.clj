@@ -5,18 +5,18 @@
 
 (def calibrations (read-resources-file-by-line "2023/day_01.txt"))
 
-(defn extract-first-digit
+(defn- extract-first-digit
   "Given a string it returns the first digit it finds.
    a5b -> 5
    32 -> 3"
   [string]
-  (reduce (fn [_ character]
-            (when (Character/isDigit character)
-              (reduced (char->int character))))
-          nil string))
+  (loop [input-str string]
+    (let [character (first input-str)]
+      (if (Character/isDigit character)
+        (char->int character)
+        (recur (rest input-str))))))
 
-
-(defn extract-calibration
+(defn- extract-calibration
   "Given a string it takes its first digital and last digit.
    Then combine them: {first}{last}."
   [string]
@@ -35,7 +35,7 @@
                       "eight" 8
                       "nine" 9})
 
-(defn extract-calibration-enhanced
+(defn- extract-calibration-enhanced
   "Given a string it takes its first digital and last digit.
      Then combine them: {first}{last}.
    The catch is that these numbers may be spelled out with letters.
@@ -54,9 +54,28 @@
 (defn part-1 [calibrations]
   (->> calibrations
        (map extract-calibration)
-       (apply +)))
+       (reduce +)))
 
 (defn part-2 [calibrations]
   (->> calibrations
        (map extract-calibration-enhanced)
-       (apply +)))
+       (reduce +)))
+
+(comment
+  ;; Transducer version for fun and learning
+  (defn- stop-on-first [pred finalize]
+    (fn [reducing-fn]
+      (fn
+        ([] (reducing-fn))
+        ([result] (reducing-fn (finalize result)))
+        ([result item]
+         (if (pred item)
+           (reducing-fn (reduced item))
+           (reducing-fn result item))))))
+
+  (def first-digit-transducer (stop-on-first #(Character/isDigit %) char->int))
+
+  (transduce first-digit-transducer conj "a5b6")
+
+  (transduce (map extract-calibration) + calibrations)
+  #_())
